@@ -14,17 +14,6 @@ variable "aws_region" {
   }
 }
 
-# hashicorp cloud platform (hcp) variables
-variable "hcp_client_id" {
-  description = "hcp client id"
-  type        = string
-}
-
-variable "hcp_client_secret" {
-  description = "hcp client secret"
-  type        = string
-}
-
 # Database variables
 variable "infrastructure_db_allocated_storage" {
   description = "The allocated storage in gibibytes"
