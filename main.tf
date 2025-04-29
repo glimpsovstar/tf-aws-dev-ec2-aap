@@ -170,10 +170,7 @@ module "postgres_vm" {
   instance_ami                   = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.rhel9_aap.external_identifier : var.infrastructure_controller_ami
   instance_type                  = var.infrastructure_postgres_instance_type
   vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
-  subnet_id = element(
-    data.terraform_remote_state.aws_dev_vpc.outputs.vpc_public_subnets,
-    count.index
-  )
+  subnet_id = data.terraform_remote_state.aws_dev_vpc.outputs.vpc_public_subnets[0]
   key_pair_name                  = var.deployment_id
   persistent_tags                = local.persistent_tags
   infrastructure_ssh_private_key = local.key_pair_private_key
