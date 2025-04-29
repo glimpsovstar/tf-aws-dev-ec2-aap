@@ -6,7 +6,7 @@ variable "deployment_id" {
 variable "aws_region" {
   description = "AWS Region to be used"
   type = string
-  default = "us-east-1"
+  default = "ap-southeast-2"
 
   validation {
   condition = can(regex("[a-z][a-z]-[a-z]+-[1-9]", var.aws_region))
@@ -220,7 +220,7 @@ variable "infrastructure_aap_installer_inventory_path" {
 variable "hcp_channel" {
   description = "The HashiCorp Cloud Platform channel to use for the deployment"
   type = string
-  default = "latest"
+  default = "production"
 }
 
 variable "hcp_bucket" {

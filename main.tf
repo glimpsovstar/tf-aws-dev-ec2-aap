@@ -160,6 +160,7 @@ module "eda_vm" {
 # Postgres VM
 ########################################
 module "postgres_vm" {
+  count = var.infrastructure_postgres_count
   source = "./modules/vms"
 
   app_tag                        = "postgres"
