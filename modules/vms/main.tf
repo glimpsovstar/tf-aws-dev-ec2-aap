@@ -14,10 +14,7 @@ resource "aws_instance" "aap_infrastructure_vm" {
   key_name = var.key_pair_name
 
   associate_public_ip_address = true
-  subnet_id = element(
-    data.terraform_remote_state.aws_dev_vpc.outputs.vpc_public_subnets,
-    count.index
-  )
+  subnet_id = var.subnet_id
   vpc_security_group_ids = var.vpc_security_group_ids
 
   root_block_device {
