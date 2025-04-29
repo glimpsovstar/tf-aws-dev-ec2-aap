@@ -216,7 +216,7 @@ resource "terraform_data" "inventory" {
       aap_hub_hosts = module.hub_vm[*].vm_private_ip
       aap_eda_hosts = module.eda_vm[*].vm_private_ip
       aap_gateway_hosts = module.gateway_vm[*].vm_private_ip
-      aap_postgres_hosts = [module.postgres_vm.vm_private_ip]
+      aap_postgres_hosts = [ module.postgres_vm[0].vm_private_ip ]
       infrastructure_admin_username = var.infrastructure_admin_username
     })
     destination = "/home/${var.infrastructure_admin_username}/.ssh/config"
