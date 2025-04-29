@@ -1,0 +1,79 @@
+[automationcontroller]
+%{ for addr in aap_controller_hosts ~}
+${addr}
+%{ endfor ~}
+
+[automationgateway]
+%{ for addr in aap_gateway_hosts ~}
+${addr}
+%{ endfor ~}
+
+[automationcontroller:vars]
+
+[automationhub]
+%{ for addr in aap_hub_hosts ~}
+${addr}
+%{ endfor ~}
+
+[automationedacontroller]
+%{ for addr in aap_eda_hosts ~}
+${addr}
+%{ endfor ~}
+
+[database]
+'${aap_postgres_db_host}'
+
+[all:vars]
+ansible_user=${infrastructure_admin_username}
+admin_password='${aap_admin_password}'
+ansible_become=true
+ansible_ssh_private_key_file=/home/${infrastructure_admin_username}/.ssh/infrastructure_ssh_private_key.pem
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+redis_mode='standalone'
+
+pg_host='${aap_postgres_db_host}'
+pg_port=5432
+pg_database='controller'
+pg_username='${infrastructure_db_username}'
+pg_password='${infrastructure_db_password}'
+pg_sslmode='prefer'
+
+
+automationgateway_admin_email="admin@gateway.hashicorp.com"
+automationgateway_admin_password='${aap_admin_password}'
+
+automationgateway_pg_host='${aap_postgres_db_host}'
+automationgateway_pg_port=5432
+automationgateway_pg_database='automationgateway'
+automationgateway_pg_username='${infrastructure_db_username}'
+automationgateway_pg_password='${infrastructure_db_password}'
+automationgateway_pg_sslmode='prefer'
+
+install_pg_port=5432
+
+registry_url='registry.redhat.io'
+registry_username='${aap_red_hat_username}'
+registry_password='${aap_red_hat_password}'
+ee_from_hub_only = True
+
+automationhub_admin_password='${aap_admin_password}'
+
+automationhub_pg_host='${aap_postgres_db_host}'
+automationhub_pg_port=5432
+automationhub_pg_database='hub'
+automationhub_pg_username='${infrastructure_db_username}'
+automationhub_pg_password='${infrastructure_db_password}'
+automationhub_pg_sslmode='prefer'
+
+automationedacontroller_admin_password='${aap_admin_password}'
+
+automationedacontroller_allowed_hostnames='%{ for addr in aap_eda_allowed_hostnames ~}${addr}%{ endfor ~}'
+
+automationedacontroller_pg_host='${aap_postgres_db_host}'
+automationedacontroller_pg_port=5432
+automationedacontroller_pg_database='eda'
+automationedacontroller_pg_username='${infrastructure_db_username}'
+automationedacontroller_pg_password='${infrastructure_db_password}'
+automationedacontroller_pg_sslmode='prefer'
+
+enable_insights_collection = False
