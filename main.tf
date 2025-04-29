@@ -180,7 +180,7 @@ module "postgres_vm" {
 }
 
 locals {
-  postgres_vm_ip = module.postgres_vm.vm_private_ip
+  postgres_vm_ip = module.postgres_vm[0].vm_private_ip
 }
 
 resource "terraform_data" "inventory" {
