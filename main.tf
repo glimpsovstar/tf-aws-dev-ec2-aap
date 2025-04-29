@@ -37,7 +37,7 @@ module "controller_vm" {
   deployment_id                  = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
   instance_name_suffix           = random_string.instance_name_suffix.result
   vm_name_prefix                 = "controller-${count.index + 1}-"
-  instance_ami                   = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_controller_ami
+  instance_ami                   = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.rhel9_aap.external_identifier : var.infrastructure_controller_ami
   instance_type                  = var.infrastructure_controller_instance_type
   vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
   subnet_id = element(
@@ -63,7 +63,7 @@ module "hub_vm" {
   deployment_id                  = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
   instance_name_suffix           = random_string.instance_name_suffix.result
   vm_name_prefix                 = "hub-${count.index + 1}-"
-  instance_ami                   = var.infrastructure_hub_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_hub_ami
+  instance_ami                   = var.infrastructure_hub_ami == "" ? data.hcp_packer_artifact.rhel9_aap.external_identifier : var.infrastructure_hub_ami
   instance_type                  = var.infrastructure_hub_instance_type
   vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
   subnet_id = element(
@@ -89,7 +89,7 @@ module "gateway_vm" {
   deployment_id                  = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
   instance_name_suffix           = random_string.instance_name_suffix.result
   vm_name_prefix                 = "gateway-${count.index + 1}-"
-  instance_ami                   = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_controller_ami
+  instance_ami                   = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.rhel9_aap.external_identifier : var.infrastructure_controller_ami
   instance_type                  = var.infrastructure_controller_instance_type
   vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
   subnet_id = element(
@@ -115,7 +115,7 @@ module "execution_vm" {
   deployment_id                  = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
   instance_name_suffix           = random_string.instance_name_suffix.result
   vm_name_prefix                 = "execution-${count.index + 1}-"
-  instance_ami                   = var.infrastructure_execution_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_execution_ami
+  instance_ami                   = var.infrastructure_execution_ami == "" ? data.hcp_packer_artifact.rhel9_aap.external_identifier : var.infrastructure_execution_ami
   instance_type                  = var.infrastructure_execution_instance_type
   vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
   subnet_id = element(
@@ -141,7 +141,7 @@ module "eda_vm" {
   deployment_id                  = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
   instance_name_suffix           = random_string.instance_name_suffix.result
   vm_name_prefix                 = "eda-${count.index + 1}-"
-  instance_ami                   = var.infrastructure_eda_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_eda_ami
+  instance_ami                   = var.infrastructure_eda_ami == "" ? data.hcp_packer_artifact.rhel9_aap.external_identifier : var.infrastructure_eda_ami
   instance_type                  = var.infrastructure_eda_instance_type
   vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
   subnet_id = element(
@@ -166,7 +166,7 @@ module "postgres_vm" {
   deployment_id                  = var.deployment_id == "" ? random_string.deployment_id[0].id : var.deployment_id
   instance_name_suffix           = random_string.instance_name_suffix.result
   vm_name_prefix                 = "postgres-"
-  instance_ami                   = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.aap.external_identifier : var.infrastructure_controller_ami
+  instance_ami                   = var.infrastructure_controller_ami == "" ? data.hcp_packer_artifact.rhel9_aap.external_identifier : var.infrastructure_controller_ami
   instance_type                  = var.infrastructure_postgres_instance_type
   vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
   subnet_id = element(
