@@ -6,7 +6,7 @@ locals {
     environment = "ansible-automation-platform"
     deployment = "aap-infrastructure-${var.deployment_id}"
   }
-  key_pair_private_key = file("${path.root}/../${var.deployment_id}.pem")
+  key_pair_private_key = var.private_key_pem
 }
 
 resource "random_string" "deployment_id" {

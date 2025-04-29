@@ -256,3 +256,9 @@ variable "channel_name" {
   type        = string
   default     = "production"
 }
+
+variable "private_key_pem" {
+  description = "The full contents of the SSH private key (PEM format)"
+  type        = string
+  sensitive   = true
+}
