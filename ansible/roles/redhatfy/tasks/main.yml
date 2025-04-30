@@ -1,0 +1,41 @@
+- name: AWS rhui client
+  ansible.builtin.dnf:
+    name: rh-amazon-rhui-client*
+    state: absent
+- name: Remove existing RHUI repo files
+  ansible.builtin.file:
+    path: /etc/yum.repos.d/*
+    state: absent
+- name: Subscription-Manager Configuration Changes To Enable Repo Management
+  ansible.builtin.command:
+    cmd: /usr/bin/subscription-manager config --rhsm.manage_repos=1
+    creates: /etc/rhsm/rhsm.conf
+- name: Register the system to access.redhat.com
+  community.general.redhat_subscription:
+    state: present
+    activationkey: "{{ rh_act_key }}"
+    org_id: "{{ rh_org_id }}"
+    autoattach: true
+- name: To enable all repositories are disabled
+  community.general.rhsm_repository:
+    name: '*'
+    state: disabled
+- name: To enable only required repositories
+  community.general.rhsm_repository:
+    name:
+      - rhel-9-for-x86_64-appstream-rpms
+      - rhel-9-for-x86_64-baseos-rpms
+      - ansible-automation-platform-2.5-for-rhel-9-x86_64-rpms
+    state: enabled
+- name: Upgrade All Packages
+  ansible.builtin.dnf:
+    name: "*"
+    state: present
+- name: Install redhat cloud connector package
+  ansible.builtin.dnf:
+    name: 'rhc'
+    state: present
+- name: RHC registration
+  ansible.builtin.command:
+    cmd: rhc connect -a "{{ rh_act_key }}" -o "{{ rh_org_id }}"
+    creates: /etc/rhc/registration_status

@@ -1,0 +1,4 @@
+---
+# Default values; overridden via host_vars from inventory
+rh_act_key: ""
+rh_org_id:  ""

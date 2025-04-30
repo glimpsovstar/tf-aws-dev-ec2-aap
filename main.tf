@@ -7,6 +7,19 @@ locals {
     deployment = "aap-infrastructure-${var.deployment_id}"
   }
   key_pair_private_key = var.private_key_pem
+  # collect your RHSM creds for Ansible
+  rhsm_ansible_vars = {
+    rh_activation_key = var.rh_activation_key
+    rh_org_id         = var.rh_org_id
+  }
+
+  # flatten into a single “--extra-vars” string
+  ansible_extra_vars = join(
+    " ",
+    [ for k, v in local.rhsm_ansible_vars :
+      "${k}='${v}'"
+    ]
+  )
 }
 
 resource "random_string" "deployment_id" {
@@ -44,7 +57,7 @@ module "controller_vm" {
     data.terraform_remote_state.aws_dev_vpc.outputs.vpc_public_subnets,
     count.index
   )
-  key_pair_name                  = var.deployment_id
+  key_pair_name                  = var.aws_key_pair_name
   persistent_tags                = local.persistent_tags
   infrastructure_ssh_private_key = local.key_pair_private_key
   infrastructure_admin_username  = var.infrastructure_admin_username
@@ -70,7 +83,7 @@ module "hub_vm" {
     data.terraform_remote_state.aws_dev_vpc.outputs.vpc_public_subnets,
     count.index
   )
-  key_pair_name                  = var.deployment_id
+  key_pair_name                  = var.aws_key_pair_name
   persistent_tags                = local.persistent_tags
   infrastructure_ssh_private_key = local.key_pair_private_key
   infrastructure_admin_username  = var.infrastructure_admin_username
@@ -96,7 +109,7 @@ module "gateway_vm" {
     data.terraform_remote_state.aws_dev_vpc.outputs.vpc_public_subnets,
     count.index
   )
-  key_pair_name                  = var.deployment_id
+  key_pair_name                  = var.aws_key_pair_name
   persistent_tags                = local.persistent_tags
   infrastructure_ssh_private_key = local.key_pair_private_key
   infrastructure_admin_username  = var.infrastructure_admin_username
@@ -122,7 +135,7 @@ module "execution_vm" {
     data.terraform_remote_state.aws_dev_vpc.outputs.vpc_public_subnets,
     count.index
   )
-  key_pair_name                  = var.deployment_id
+  key_pair_name                  = var.aws_key_pair_name
   persistent_tags                = local.persistent_tags
   infrastructure_ssh_private_key = local.key_pair_private_key
   infrastructure_admin_username  = var.infrastructure_admin_username
@@ -148,7 +161,7 @@ module "eda_vm" {
     data.terraform_remote_state.aws_dev_vpc.outputs.vpc_public_subnets,
     count.index
   )
-  key_pair_name                  = var.deployment_id
+  key_pair_name                  = var.aws_key_pair_name
   persistent_tags                = local.persistent_tags
   infrastructure_ssh_private_key = local.key_pair_private_key
   infrastructure_admin_username  = var.infrastructure_admin_username
@@ -171,7 +184,7 @@ module "postgres_vm" {
   instance_type                  = var.infrastructure_postgres_instance_type
   vpc_security_group_ids         = [aws_security_group.aap_infrastructure_sg.id]
   subnet_id = data.terraform_remote_state.aws_dev_vpc.outputs.vpc_public_subnets[0]
-  key_pair_name                  = var.deployment_id
+  key_pair_name                  = var.aws_key_pair_name
   persistent_tags                = local.persistent_tags
   infrastructure_ssh_private_key = local.key_pair_private_key
   infrastructure_admin_username  = var.infrastructure_admin_username
